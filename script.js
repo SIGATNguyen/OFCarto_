@@ -115,11 +115,11 @@ function handleStepEnter(response) {
     document.getElementById("blue-overlay").classList.add("hide-overlay");
     gsap.to("#" + id + " .text-container", { opacity: 1, duration: 0.5 });
     if (id === "pearl-harbor") {
-      map.flyTo({ center: [-157.95, 21.35], zoom: 8, duration: 2000 });
+      map.flyTo({ center: [-157.95, 21.35], zoom: 10, duration: 2000 });
     } else if (id === "midway") {
       map.flyTo({ center: [-177.4, 28.2], zoom: 12, duration: 2000 });
     } else if (id === "hiroshima-nagasaki") {
-      map.flyTo({ center: [132.5, 34.4], zoom: 7, duration: 2000 });
+      map.flyTo({ center: [132.5, 34.4], zoom: 10, duration: 2000 });
     }
   }
   else if (id === "analysis") {
