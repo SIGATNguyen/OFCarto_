@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>OFcarto</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Guerre du Pacifique (1941-1945) - Un récit journalistique</title>
+  <!-- Mapbox GL JS CSS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <!-- Google Fonts: Poppins (pour extra bold et bold) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;0,800&display=swap" rel="stylesheet">
+  <!-- Feuille de style personnalisée -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Barre de progression -->
+  <div id="progress-bar"></div>
+  
+  <!-- La carte en fond occupe tout l'écran -->
+  <div id="map"></div>
+  
+  <!-- Overlay (sombre transparent) -->
+  <div id="blue-overlay"></div>
+
+  <!-- Conteneur du scrollytelling -->
+  <main id="scroll-container">
+    <div class="scroller">
+      <!-- Section d'introduction -->
+      <section class="step" id="intro">
+        <article class="intro-article">
+          <figure class="intro-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Pacific_war_tile_picture.png" alt="Image de la Guerre du Pacifique">
+          </figure>
+          <div class="intro-text">
+            <h1>80 ans après Fat Man et Little Boy : L'héritage explosif d'une ère</h1>
+            <p>
+              Plongez au cœur d'un conflit historique qui a redéfini le monde. Revivez les moments clés du Pacifique dans ce récit interactif et immersif.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <!-- Section Pearl Harbor -->
+      <section class="step" id="pearl-harbor">
+        <article class="text-container right">
+          <h2>7 décembre 1941 - Pearl Harbor</h2>
+          <p>
+            Plongez au cœur de l'attaque surprise et suivez les trajectoires des avions japonais lors de ce jour historique dans la baie de <span class="highlight">Pearl Harbor</span>.
+          </p>
+        </article>
+      </section>
+
+      <!-- Section Midway -->
+      <section class="step" id="midway">
+        <article class="text-container left">
+          <h2>4-7 juin 1942 - Bataille de Midway</h2>
+          <p>
+            Assistez à la manœuvre stratégique des porte-avions et découvrez les enjeux décisifs de cette bataille au large de <span class="highlight">Midway</span>.
+          </p>
+        </article>
+      </section>
+
+      <!-- Section Analyse -->
+      <section class="step" id="analysis">
+        <article class="analysis-fullscreen">
+          <div class="analysis-text">
+            <h2>Analyse : L'impact géopolitique</h2>
+            <p>
+              Après <span class="highlight">Midway</span>, le rééquilibrage stratégique s'opère. Le graphique ci-dessous illustre l'évolution des opérations navales et aériennes.
+            </p>
+          </div>
+          <div class="analysis-chart">
+            <canvas id="myChart"></canvas>
+          </div>
+        </article>
+      </section>
+
+      <!-- Section Hiroshima & Nagasaki -->
+      <section class="step" id="hiroshima-nagasaki">
+        <article class="text-container right">
+          <h2>6 &amp; 9 août 1945 - Hiroshima & Nagasaki</h2>
+          <p>
+            Analyse des zones d'impact, des conséquences humaines et des transformations géopolitiques provoquées par ces événements à <span class="highlight">Hiroshima</span> et <span class="highlight">Nagasaki</span>.
+          </p>
+        </article>
+      </section>
+
+      <!-- Section Conclusion -->
+      <section class="step" id="conclusion">
+        <article class="final-article">
+          <div class="final-text">
+            <h2>Conclusion</h2>
+            <p>
+              Cet article présente un regard approfondi sur l'évolution du conflit et ses répercussions durables. En retraçant les étapes majeures de la Guerre du Pacifique, nous comprenons mieux les enjeux stratégiques et humains de ce chapitre.
+            </p>
+          </div>
+          <figure class="final-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Fat_Man_Assembled_Tinian_1945.jpg" alt="Fat Man Assembled Tinian 1945">
+          </figure>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <!-- Inclusion des scripts -->
+  <!-- Mapbox GL JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <!-- Scrollama JS -->
+  <script src="https://unpkg.com/scrollama"></script>
+  <!-- GSAP JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- GSAP ScrollTrigger Plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Script personnalisé -->
+  <script src="script.js"></script>
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>

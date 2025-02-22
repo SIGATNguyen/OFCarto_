@@ -1,0 +1,280 @@
+/* Réinitialisation */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Palette sombre + tons terreux */
+:root {
+  --primary-color: #E5E5E5;    /* Titres en gris clair */
+  --secondary-color: #2b2b2b;  /* Fond global sombre */
+  --accent-color: #c0392b;     /* Rouge terreux */
+  --text-color: #d1ccc0;       /* Texte en gris clair */
+  --highlight-bg: #EECF68;     /* Fond jaune/or pour surlignage */
+  --highlight-fg: #111;        /* Texte noir pour surlignage */
+}
+
+/* Base */
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  overflow: hidden;
+}
+
+/* Barre de progression */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 5px;
+  background: var(--accent-color);
+  z-index: 100;
+  transition: width 0.3s;
+}
+
+/* Carte en fond */
+#map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: opacity 0.5s;
+}
+
+/* Overlay sombre */
+#blue-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 100%);
+  pointer-events: none;
+}
+.hide-overlay {
+  display: none;
+}
+
+/* Conteneur scrollytelling */
+#scroll-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  overflow-y: scroll;
+  background: transparent;
+}
+.scroller {
+  position: relative;
+  width: 100%;
+  min-height: 500vh;
+}
+
+/* Sections */
+.step {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Chaque section occupe toute la hauteur */
+  display: flex;
+  align-items: center;
+}
+
+/* Bloc texte classique */
+.text-container {
+  background: rgba(43,43,43,0.85);
+  padding: 20px 30px;
+  border-radius: 8px;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+  opacity: 0;
+}
+.text-container.left {
+  margin-left: 10%;
+}
+.text-container.right {
+  margin-left: auto;
+  margin-right: 10%;
+}
+
+/* Gros titre - Poppins Extra Bold */
+h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800; /* Extra Bold */
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+/* Titres secondaires et paragraphes - Poppins Bold */
+h2, p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700; /* Bold */
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  font-weight: 700; /* Bold */
+}
+
+/* Surlignage pour mots-clés dans le texte */
+.highlight {
+  background: var(--highlight-bg);
+  color: var(--highlight-fg);
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+
+/* Intro section */
+#intro {
+  background: transparent;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.intro-article {
+  display: flex;
+  align-items: center;
+  max-width: 1000px;
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+}
+.intro-image img {
+  width: 350px;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+.intro-text {
+  flex: 1;
+}
+.intro-text h1 {
+  font-size: 2.2em;
+}
+
+/* Section Analysis */
+#analysis {
+  background: #1d1f20;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.analysis-fullscreen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 50px;
+  box-sizing: border-box;
+  opacity: 0;
+}
+.analysis-text {
+  flex: 1 1 auto;
+  max-width: 600px;
+  margin: 20px;
+}
+.analysis-text h2 {
+  font-size: 2.5rem;
+}
+.analysis-text p {
+  font-size: 1.3rem;
+  line-height: 1.8;
+}
+.analysis-chart {
+  flex: 1 1 auto;
+  margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.analysis-chart canvas {
+  width: 800px;
+  height: 500px;
+  max-width: 90vw;
+  max-height: 80vh;
+}
+
+/* Conclusion section */
+#conclusion {
+  background: transparent;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.final-article {
+  display: flex;
+  align-items: center;
+  max-width: 1000px;
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+}
+.final-text {
+  flex: 1;
+  padding-right: 20px;
+}
+.final-text h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+.final-text p {
+  font-size: 1.1em;
+}
+.final-image img {
+  width: 350px;
+  border-radius: 5px;
+}
+
+/* Tablettes */
+@media (max-width: 992px) {
+  .analysis-text h2 {
+    font-size: 2.2rem;
+  }
+  .analysis-text p {
+    font-size: 1.2rem;
+  }
+  .analysis-chart canvas {
+    width: 600px;
+    height: 400px;
+  }
+}
+
+/* Mobiles */
+@media (max-width: 768px) {
+  .analysis-fullscreen {
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+  }
+  .analysis-text {
+    max-width: 100%;
+    margin: 10px 0;
+  }
+  .analysis-text h2 {
+    font-size: 1.8rem;
+  }
+  .analysis-text p {
+    font-size: 1.1rem;
+  }
+  .analysis-chart canvas {
+    width: 90vw;
+    height: auto;
+    max-height: 60vh;
+  }
+}
