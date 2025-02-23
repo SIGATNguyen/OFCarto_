@@ -16,13 +16,13 @@
 }
 
 /* Base */
-body, html {
+html, body {
   width: 100%;
   height: 100%;
   font-family: 'Montserrat', sans-serif;
   background-color: var(--secondary-color);
   color: var(--text-color);
-  overflow: hidden;
+  overflow: hidden; /* On scrolle dans #scroll-container */
 }
 
 /* Barre de progression */
@@ -48,7 +48,7 @@ body, html {
   transition: opacity 0.5s;
 }
 
-/* Overlay sombre */
+/* Overlay sombre (dégradé) */
 #blue-overlay {
   position: fixed;
   top: 0;
@@ -77,19 +77,19 @@ body, html {
 .scroller {
   position: relative;
   width: 100%;
-  min-height: 500vh;
+  min-height: 500vh; /* On force un grand contenu */
 }
 
-/* Sections */
+/* Chaque section .step occupe la hauteur de l'écran */
 .step {
   position: relative;
   width: 100%;
-  height: 100vh; /* Chaque section occupe la totalité de la hauteur */
+  height: 100vh;
   display: flex;
   align-items: center;
 }
 
-/* Bloc texte classique */
+/* Bloc texte (Pearl, Midway, etc.) */
 .text-container {
   background: rgba(43,43,43,0.85);
   padding: 20px 30px;
@@ -117,7 +117,7 @@ p {
   font-weight: 300;
 }
 
-/* Surlignage dans le texte uniquement */
+/* Surlignage */
 .highlight {
   background: var(--highlight-bg);
   color: var(--highlight-fg);
@@ -156,7 +156,7 @@ p {
   color: var(--primary-color);
 }
 
-/* Section Analysis */
+/* Section Analysis (plein écran) */
 #analysis {
   background: #1d1f20;
   color: #fff;
@@ -172,7 +172,7 @@ p {
   justify-content: space-around;
   padding: 50px;
   box-sizing: border-box;
-  opacity: 0; /* Fade-in via GSAP */
+  opacity: 0; /* Animé via GSAP */
 }
 .analysis-text {
   flex: 1 1 auto;
@@ -239,10 +239,10 @@ p {
 
 /* Media queries */
 
-/* Tablettes */
+/* Tablettes (max-width: 992px) */
 @media (max-width: 992px) {
   .analysis-text h2 {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
   .analysis-text p {
     font-size: 1.2rem;
@@ -253,20 +253,43 @@ p {
   }
 }
 
-/* Mobiles */
+/* Mobiles (max-width: 768px) */
 @media (max-width: 768px) {
+  .step {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 30px 0;
+  }
+  .text-container {
+    margin: 0 auto;
+    max-width: 90%;
+    padding: 15px 20px;
+  }
+  .intro-article {
+    flex-direction: column;
+    text-align: center;
+  }
+  .intro-image img {
+    margin: 0 auto 20px;
+  }
+  .intro-text h1 {
+    font-size: 1.8em;
+  }
+  .intro-text p {
+    font-size: 1rem;
+  }
   .analysis-fullscreen {
     flex-direction: column;
-    justify-content: center;
-    padding: 20px;  /* Réduction du padding */
+    padding: 20px;
+    height: auto;
   }
   .analysis-text {
     max-width: 100%;
     margin: 10px 0;
-    text-align: center; /* Centrer le texte */
+    text-align: center;
   }
   .analysis-text h2 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
   .analysis-text p {
     font-size: 1rem;
@@ -276,8 +299,18 @@ p {
     height: auto;
     max-height: 50vh;
   }
-  .text-container {
-    padding: 15px 20px;
-    max-width: 90%;
+  .final-article {
+    flex-direction: column;
+    text-align: center;
+  }
+  .final-text {
+    padding-right: 0;
+    margin-bottom: 20px;
+  }
+  .final-text h2 {
+    font-size: 1.6rem;
+  }
+  .final-text p {
+    font-size: 1rem;
   }
 }
