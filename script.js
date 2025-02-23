@@ -1,7 +1,7 @@
-// GSAP + ScrollTrigger
+// Activer GSAP + ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
-// Mapbox init
+// Initialiser la map Mapbox
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2lnYXRuZ3V5ZW4iLCJhIjoiY203MzYxdzdzMGZ1ajJpc2ZwZmRzczIwZCJ9.Jpxbl-gh-nuwDodqWlmWEA';
 var map = new mapboxgl.Map({
   container: 'map',
@@ -16,8 +16,10 @@ map.addControl(new mapboxgl.NavigationControl());
 // Scrollama init
 var scroller = scrollama();
 
-/* 1) Création du graphique Chart.js */
+// Référence pour le graphique Chart.js
 var analysisChart;
+
+/* Création du graphique Chart.js */
 function createAnalysisChart() {
   var ctx = document.getElementById('myChart').getContext('2d');
 
@@ -78,7 +80,8 @@ function createAnalysisChart() {
         },
         title: {
           display: true,
-          text: "Impact stratégique"
+          text: "Impact stratégique",
+          color: "#fff"
         }
       },
       scales: {
@@ -97,35 +100,42 @@ function createAnalysisChart() {
   analysisChart = new Chart(ctx, config);
 }
 
-/* 2) handleStepEnter */
+/**
+ * handleStepEnter : déclenché à l’entrée d’une section
+ */
 function handleStepEnter(response) {
-  var id = response.element.id;
-  console.log("Entrée dans :", id);
+  const el = response.element;
+  const id = el.id;
 
+  // Rendre visible la section principale
+  gsap.to(el, { opacity: 1, duration: 0.5 });
+  el.style.pointerEvents = 'auto';
+
+  // Logiques spécifiques selon la section
   if (id === "intro") {
-    // Intro : on affiche le texte et on masque la carte
-    document.getElementById("intro").style.display = "flex";
-    gsap.to("#intro .intro-article", { opacity: 1, duration: 0.5 });
+    // Pour l'intro : overlay visible, carte masquée
     document.getElementById("blue-overlay").classList.remove("hide-overlay");
     gsap.to("#map", { opacity: 0, duration: 0.5 });
   }
   else if (id === "pearl-harbor" || id === "midway" || id === "hiroshima-nagasaki") {
-    // On affiche la carte, on masque l'overlay, on fait apparaitre le bloc texte
+    // Pour ces chapitres : afficher la carte et masquer l'overlay
     gsap.to("#map", { opacity: 1, duration: 0.5 });
     document.getElementById("blue-overlay").classList.add("hide-overlay");
+
+    // Afficher le bloc de texte du chapitre
     gsap.to("#" + id + " .text-container", { opacity: 1, duration: 0.5 });
 
     // FlyTo selon la section
     if (id === "pearl-harbor") {
-      map.flyTo({ center: [-157.95, 21.35], zoom: 8, duration: 2000 });
+      map.flyTo({ center: [-157.95, 21.35], zoom: 10, duration: 2000 });
     } else if (id === "midway") {
       map.flyTo({ center: [-177.4, 28.2], zoom: 12, duration: 2000 });
     } else if (id === "hiroshima-nagasaki") {
-      map.flyTo({ center: [132.5, 34.4], zoom: 7, duration: 2000 });
+      map.flyTo({ center: [132.5, 34.4], zoom: 10, duration: 2000 });
     }
   }
   else if (id === "analysis") {
-    // On masque la carte et on affiche la section "analysis"
+    // Section d'analyse : masquer la carte et afficher l'analyse en plein écran
     gsap.to("#map", { opacity: 0, duration: 0.5 });
     gsap.to("#analysis .analysis-fullscreen", {
       opacity: 1,
@@ -138,55 +148,42 @@ function handleStepEnter(response) {
     });
   }
   else if (id === "conclusion") {
-    // On masque la carte, on réaffiche l'overlay (pour un effet fade ?)
+    // Conclusion : overlay visible, carte masquée
     document.getElementById("blue-overlay").classList.remove("hide-overlay");
     gsap.to("#map", { opacity: 0, duration: 0.5 });
-    gsap.to("#conclusion .final-article", { opacity: 1, duration: 0.5 });
   }
 }
 
-/* 3) handleStepExit */
+/**
+ * handleStepExit : déclenché quand on quitte une section
+ */
 function handleStepExit(response) {
-  var id = response.element.id;
-  console.log("Sortie de :", id);
+  const el = response.element;
+  const id = el.id;
 
-  if (id === "intro" && response.direction === "down") {
-    // Quand on quitte l'intro, on masque l'intro
-    gsap.to("#intro .intro-article", {
-      opacity: 0,
-      duration: 0.5,
-      onComplete: function() {
-        document.getElementById("intro").style.display = "none";
-      }
-    });
-    document.getElementById("blue-overlay").classList.add("hide-overlay");
-    gsap.to("#map", { opacity: 1, duration: 0.5 });
-  }
-  if (id === "analysis" && response.direction === "down") {
-    // On quitte la section analysis vers le bas
+  // Remettre la section en opacité 0 (fade out)
+  gsap.to(el, { opacity: 0, duration: 0.5 });
+  el.style.pointerEvents = 'none';
+
+  // Pour la section analysis, masquer aussi le bloc d'analyse
+  if (id === "analysis") {
     gsap.to("#analysis .analysis-fullscreen", { opacity: 0, duration: 0.5 });
-    gsap.to("#map", { opacity: 1, duration: 0.5 });
-  }
-  if (id === "conclusion" && response.direction === "up") {
-    // On remonte depuis la conclusion
-    document.getElementById("blue-overlay").classList.add("hide-overlay");
-    gsap.to("#map", { opacity: 1, duration: 0.5 });
   }
 }
 
-/* 4) Scrollama setup */
+// Configuration de Scrollama
 scroller.setup({
   step: ".step",
-  offset: 0.3,
+  offset: 0.3,   // Ajustez si besoin
   debug: false
 })
 .onStepEnter(handleStepEnter)
 .onStepExit(handleStepExit);
 
-// Recalcule sur resize
+// Recalculer au redimensionnement
 window.addEventListener("resize", scroller.resize);
 
-/* 5) Barre de progression */
+/* Barre de progression */
 window.addEventListener('scroll', function() {
   const scrolled = window.pageYOffset || document.documentElement.scrollTop;
   const maxHeight = document.documentElement.scrollHeight - window.innerHeight;
