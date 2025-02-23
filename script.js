@@ -1,11 +1,10 @@
-// Enregistrement du plugin ScrollTrigger de GSAP
+// GSAP + ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
-// Initialisation de Mapbox
-mapboxgl.accessToken = 'pk.eyJ1Ijoic2lnYXRuZ3V5ZW4iLCJhIjoiY203MzYxdzdzMGZ1ajJpc2ZwZmRzczIwZCJ9.Jpxbl-gh-nuwDodqWlmWEA'; // Remplacez par votre token Mapbox
+// Mapbox init
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2lnYXRuZ3V5ZW4iLCJhIjoiY203MzYxdzdzMGZ1ajJpc2ZwZmRzczIwZCJ9.Jpxbl-gh-nuwDodqWlmWEA';
 var map = new mapboxgl.Map({
   container: 'map',
-  // Style sombre/terreux personnalisé
   style: 'mapbox://styles/sigatnguyen/cm7gqo8ml00jr01s86xieg74u',
   center: [137, 20],
   zoom: 4,
@@ -14,7 +13,7 @@ var map = new mapboxgl.Map({
 });
 map.addControl(new mapboxgl.NavigationControl());
 
-// Initialisation de Scrollama
+// Scrollama init
 var scroller = scrollama();
 
 /* 1) Création du graphique Chart.js */
@@ -22,7 +21,6 @@ var analysisChart;
 function createAnalysisChart() {
   var ctx = document.getElementById('myChart').getContext('2d');
 
-  // Données pour l'axe x (0 à 4 correspond à Mai-Septembre)
   var dataNavales = [
     { x: 0, y: 20 },
     { x: 1, y: 45 },
@@ -45,7 +43,7 @@ function createAnalysisChart() {
         {
           label: 'Opérations navales',
           data: dataNavales,
-          borderColor: '#2196F3',          // Bleu
+          borderColor: '#2196F3',
           backgroundColor: 'rgba(33,150,243,0.2)',
           borderWidth: 1,
           radius: 0,
@@ -54,7 +52,7 @@ function createAnalysisChart() {
         {
           label: 'Opérations aériennes',
           data: dataAeriennes,
-          borderColor: '#d32f2f',          // Rouge
+          borderColor: '#d32f2f',
           backgroundColor: 'rgba(211,47,47,0.2)',
           borderWidth: 1,
           radius: 0,
@@ -105,24 +103,29 @@ function handleStepEnter(response) {
   console.log("Entrée dans :", id);
 
   if (id === "intro") {
+    // Intro : on affiche le texte et on masque la carte
     document.getElementById("intro").style.display = "flex";
     gsap.to("#intro .intro-article", { opacity: 1, duration: 0.5 });
     document.getElementById("blue-overlay").classList.remove("hide-overlay");
     gsap.to("#map", { opacity: 0, duration: 0.5 });
   }
   else if (id === "pearl-harbor" || id === "midway" || id === "hiroshima-nagasaki") {
+    // On affiche la carte, on masque l'overlay, on fait apparaitre le bloc texte
     gsap.to("#map", { opacity: 1, duration: 0.5 });
     document.getElementById("blue-overlay").classList.add("hide-overlay");
     gsap.to("#" + id + " .text-container", { opacity: 1, duration: 0.5 });
+
+    // FlyTo selon la section
     if (id === "pearl-harbor") {
-      map.flyTo({ center: [-157.95, 21.35], zoom: 10, duration: 2000 });
+      map.flyTo({ center: [-157.95, 21.35], zoom: 8, duration: 2000 });
     } else if (id === "midway") {
       map.flyTo({ center: [-177.4, 28.2], zoom: 12, duration: 2000 });
     } else if (id === "hiroshima-nagasaki") {
-      map.flyTo({ center: [132.5, 34.4], zoom: 10, duration: 2000 });
+      map.flyTo({ center: [132.5, 34.4], zoom: 7, duration: 2000 });
     }
   }
   else if (id === "analysis") {
+    // On masque la carte et on affiche la section "analysis"
     gsap.to("#map", { opacity: 0, duration: 0.5 });
     gsap.to("#analysis .analysis-fullscreen", {
       opacity: 1,
@@ -135,6 +138,7 @@ function handleStepEnter(response) {
     });
   }
   else if (id === "conclusion") {
+    // On masque la carte, on réaffiche l'overlay (pour un effet fade ?)
     document.getElementById("blue-overlay").classList.remove("hide-overlay");
     gsap.to("#map", { opacity: 0, duration: 0.5 });
     gsap.to("#conclusion .final-article", { opacity: 1, duration: 0.5 });
@@ -147,6 +151,7 @@ function handleStepExit(response) {
   console.log("Sortie de :", id);
 
   if (id === "intro" && response.direction === "down") {
+    // Quand on quitte l'intro, on masque l'intro
     gsap.to("#intro .intro-article", {
       opacity: 0,
       duration: 0.5,
@@ -158,10 +163,12 @@ function handleStepExit(response) {
     gsap.to("#map", { opacity: 1, duration: 0.5 });
   }
   if (id === "analysis" && response.direction === "down") {
+    // On quitte la section analysis vers le bas
     gsap.to("#analysis .analysis-fullscreen", { opacity: 0, duration: 0.5 });
     gsap.to("#map", { opacity: 1, duration: 0.5 });
   }
   if (id === "conclusion" && response.direction === "up") {
+    // On remonte depuis la conclusion
     document.getElementById("blue-overlay").classList.add("hide-overlay");
     gsap.to("#map", { opacity: 1, duration: 0.5 });
   }
@@ -176,6 +183,7 @@ scroller.setup({
 .onStepEnter(handleStepEnter)
 .onStepExit(handleStepExit);
 
+// Recalcule sur resize
 window.addEventListener("resize", scroller.resize);
 
 /* 5) Barre de progression */
