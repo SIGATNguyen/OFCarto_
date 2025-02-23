@@ -15,14 +15,14 @@
   --highlight-fg: #111;         /* Texte noir pour surlignage */
 }
 
-/* Base */
 html, body {
   width: 100%;
   height: 100%;
   font-family: 'Montserrat', sans-serif;
   background-color: var(--secondary-color);
   color: var(--text-color);
-  overflow: hidden; /* On scrolle dans #scroll-container */
+  /* On scrolle dans #scroll-container */
+  overflow: hidden;
 }
 
 /* Barre de progression */
@@ -77,16 +77,29 @@ html, body {
 .scroller {
   position: relative;
   width: 100%;
-  min-height: 500vh; /* On force un grand contenu */
+  /* On force un grand contenu pour scroller */
+  min-height: 500vh;
 }
 
-/* Chaque section .step occupe la hauteur de l'écran */
+/* Chaque section .step occupe la hauteur de l'écran,
+   et est masquée par défaut */
 .step {
   position: relative;
   width: 100%;
   height: 100vh;
   display: flex;
   align-items: center;
+
+  /* Masqué par défaut */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+
+/* Sauf l'intro, visible dès le départ */
+#intro {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Bloc texte (Pearl, Midway, etc.) */
@@ -96,6 +109,9 @@ html, body {
   border-radius: 8px;
   max-width: 400px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+
+  /* Masqué par défaut dans le HTML, mais tu peux laisser
+     l'animation gérée par GSAP si tu préfères */
   opacity: 0;
 }
 .text-container.left {
@@ -156,20 +172,18 @@ p {
   color: var(--primary-color);
 }
 
-
 /* Métadonnées centrées (Publié le... | Par...) */
 .intro-meta {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centre les éléments horizontalement */
+  align-items: center;
   margin-top: 0.5em;
-  gap: 0.3em; /* Espacement entre les lignes */
-  text-align: center; /* Centre le texte */
+  gap: 0.3em;
+  text-align: center;
 }
-
 .meta-date,
 .byline {
-  display: block; /* Chaque élément prend une ligne entière */
+  display: block;
   font-size: 0.85rem;
   line-height: 1.4;
   letter-spacing: 0.5px;
@@ -182,18 +196,10 @@ p {
   width: fit-content;
 }
 
-
-
-
-
-
 /* Section Analysis (plein écran) */
 #analysis {
   background: #1d1f20;
   color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .analysis-fullscreen {
   width: 100%;
@@ -203,7 +209,9 @@ p {
   justify-content: space-around;
   padding: 50px;
   box-sizing: border-box;
-  opacity: 0; /* Animé via GSAP */
+
+  /* Masqué par défaut */
+  opacity: 0;
 }
 .analysis-text {
   flex: 1 1 auto;
@@ -282,7 +290,6 @@ p {
     width: 600px;
     height: 400px;
   }
-  
 }
 
 /* Mobiles (max-width: 768px) */
