@@ -1,4 +1,4 @@
-// Activer GSAP + ScrollTrigger
+// Activer GSAP et ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
 // Initialiser la map Mapbox
@@ -13,7 +13,7 @@ var map = new mapboxgl.Map({
 });
 map.addControl(new mapboxgl.NavigationControl());
 
-// Scrollama init
+// Initialiser Scrollama
 var scroller = scrollama();
 
 // Référence pour le graphique Chart.js
@@ -102,6 +102,7 @@ function createAnalysisChart() {
 
 /**
  * handleStepEnter : déclenché à l’entrée d’une section
+ * (Option 2 : on enchaîne la vue de la carte dès que le texte du nouveau chapitre apparaît)
  */
 function handleStepEnter(response) {
   const el = response.element;
@@ -111,9 +112,8 @@ function handleStepEnter(response) {
   gsap.to(el, { opacity: 1, duration: 0.5 });
   el.style.pointerEvents = 'auto';
 
-  // Logiques spécifiques selon la section
   if (id === "intro") {
-    // Pour l'intro : overlay visible, carte masquée
+    // Intro : overlay visible et carte masquée
     document.getElementById("blue-overlay").classList.remove("hide-overlay");
     gsap.to("#map", { opacity: 0, duration: 0.5 });
   }
@@ -121,21 +121,24 @@ function handleStepEnter(response) {
     // Pour ces chapitres : afficher la carte et masquer l'overlay
     gsap.to("#map", { opacity: 1, duration: 0.5 });
     document.getElementById("blue-overlay").classList.add("hide-overlay");
-
-    // Afficher le bloc de texte du chapitre
-    gsap.to("#" + id + " .text-container", { opacity: 1, duration: 0.5 });
-
-    // FlyTo selon la section
-    if (id === "pearl-harbor") {
-      map.flyTo({ center: [-157.95, 21.35], zoom: 10, duration: 2000 });
-    } else if (id === "midway") {
-      map.flyTo({ center: [-177.4, 28.2], zoom: 12, duration: 2000 });
-    } else if (id === "hiroshima-nagasaki") {
-      map.flyTo({ center: [132.5, 34.4], zoom: 10, duration: 2000 });
-    }
+    
+    // Afficher le bloc de texte et, dès que l'animation est terminée, changer la vue de la carte
+    gsap.to("#" + id + " .text-container", {
+      opacity: 1,
+      duration: 0.5,
+      onComplete: function() {
+        if (id === "pearl-harbor") {
+          map.flyTo({ center: [-157.95, 21.35], zoom: 8, duration: 2000 });
+        } else if (id === "midway") {
+          map.flyTo({ center: [-177.4, 28.2], zoom: 12, duration: 2000 });
+        } else if (id === "hiroshima-nagasaki") {
+          map.flyTo({ center: [132.5, 34.4], zoom: 7, duration: 2000 });
+        }
+      }
+    });
   }
   else if (id === "analysis") {
-    // Section d'analyse : masquer la carte et afficher l'analyse en plein écran
+    // Analyse : masquer la carte et afficher le bloc d'analyse
     gsap.to("#map", { opacity: 0, duration: 0.5 });
     gsap.to("#analysis .analysis-fullscreen", {
       opacity: 1,
@@ -161,11 +164,11 @@ function handleStepExit(response) {
   const el = response.element;
   const id = el.id;
 
-  // Remettre la section en opacité 0 (fade out)
+  // Masquer la section (fade out)
   gsap.to(el, { opacity: 0, duration: 0.5 });
   el.style.pointerEvents = 'none';
-
-  // Pour la section analysis, masquer aussi le bloc d'analyse
+  
+  // Pour la section analysis, masquer également le bloc d'analyse
   if (id === "analysis") {
     gsap.to("#analysis .analysis-fullscreen", { opacity: 0, duration: 0.5 });
   }
@@ -174,16 +177,16 @@ function handleStepExit(response) {
 // Configuration de Scrollama
 scroller.setup({
   step: ".step",
-  offset: 0.3,   // Ajustez si besoin
+  offset: 0.3,
   debug: false
 })
 .onStepEnter(handleStepEnter)
 .onStepExit(handleStepExit);
 
-// Recalculer au redimensionnement
+// Recalculer Scrollama lors du redimensionnement
 window.addEventListener("resize", scroller.resize);
 
-/* Barre de progression */
+/* Mise à jour de la barre de progression */
 window.addEventListener('scroll', function() {
   const scrolled = window.pageYOffset || document.documentElement.scrollTop;
   const maxHeight = document.documentElement.scrollHeight - window.innerHeight;
