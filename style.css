@@ -156,6 +156,37 @@ p {
   color: var(--primary-color);
 }
 
+
+/* Métadonnées centrées (Publié le... | Par...) */
+.intro-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centre les éléments horizontalement */
+  margin-top: 0.5em;
+  gap: 0.3em; /* Espacement entre les lignes */
+  text-align: center; /* Centre le texte */
+}
+
+.meta-date,
+.byline {
+  display: block; /* Chaque élément prend une ligne entière */
+  font-size: 0.85rem;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: bold;
+  background: var(--highlight-bg);
+  color: var(--highlight-fg);
+  padding: 2px 5px;
+  border-radius: 2px;
+  width: fit-content;
+}
+
+
+
+
+
+
 /* Section Analysis (plein écran) */
 #analysis {
   background: #1d1f20;
